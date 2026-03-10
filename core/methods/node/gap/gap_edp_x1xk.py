@@ -15,7 +15,7 @@ from core.privacy.mechanisms.commons import GaussianMechanism
 
 
 class EdgePrivGAPX1XK(GAP):
-    """edge-private GAP method (last-hop only post-noise version)"""
+    """edge-private GAP method (post-noise on x1...xk, keep x0 clean)"""
 
     def __init__(self,
                  num_classes,
