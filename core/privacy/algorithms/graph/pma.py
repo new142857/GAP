@@ -9,7 +9,7 @@ class PMA(NoisyMechanism):
         super().__init__(noise_scale)
         self.name = 'PMA'
         self.params = {'noise_scale': noise_scale, 'hops': hops}
-        self.gm = GaussianMechanism(noise_scale=noise_scale)
+        self.gm = GaussianMechanism(noise_scale=noise_scale) #去掉初始化创建高斯机制实例
 
         if hops == 0:
             mech = ZeroMechanism()
@@ -22,6 +22,7 @@ class PMA(NoisyMechanism):
                 mechanism_list=[self.gm], 
                 coeff_list=[hops]
             )
+            #mech = GaussianMechanism(noise_scale=noise_scale)
 
         self.set_all_representation(mech)
 
