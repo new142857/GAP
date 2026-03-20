@@ -42,7 +42,7 @@ class EdgePrivGAPX1XK(GAP):
         self.num_edges = None
 
     def calibrate(self):
-        # 现在只在最终聚合结果上做一次 release
+        # 对 x1~xk 分别加噪
         self.pma_mechanism = PMA(noise_scale=0.0, hops=self.hops)
 
         with console.status('calibrating noise to privacy budget'):
@@ -65,16 +65,20 @@ class EdgePrivGAPX1XK(GAP):
         return matmul(adj_t, x)
 
     def compute_aggregations(self, data: Data) -> Data:
-        with console.status('computing last-hop aggregations'):
+        with console.status('computing aggregations'):
             x = F.normalize(data.x, p=2, dim=-1)
             x_list = [x]
-
+            x_list_noisy = [x_list[0]]
             for _ in range(self.hops):
                 x = self._aggregate(x, data.adj_t)
                 x_list.append(x)
+                x = self._normalize(x)
+                # ====== 加入聚合系数 α_k ======
+                # alpha_k = 1.0 / self.hops  # 举例，可自定义
+                # x = alpha_k * x
+                # =================================
 
             #只对x1到xk加噪
-            x_list_noisy = [x_list[0]]  # x0 保留
             for xi in x_list[1:]:
                 xi = self.pma_mechanism(xi, sensitivity=self.sensitivity)
                 xi = self._normalize(xi)
