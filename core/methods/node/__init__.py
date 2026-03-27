@@ -10,11 +10,13 @@ from core.methods.node.mlp.mlp_dp import PrivMLP
 from core.methods.node.gap.gap_edp_x1xk_s import EdgePrivGAPX1XKS
 from core.methods.node.gap.gap_edp_x1xk import EdgePrivGAPX1XK
 from core.methods.node.gap.gap_edp_epsilon import EdgePrivGAPE
+from core.methods.node.gap.gap_edp_epsilon2 import EdgePrivGAPE2
 
 supported_methods = {
     'gap-inf':  GAP,
     'gap-edp':  EdgePrivGAP,
     'gap-edpe': EdgePrivGAPE,
+    'gap-edpes': EdgePrivGAPE2,
     'gap-edpxs': EdgePrivGAPX1XKS,
     'gap-edpx': EdgePrivGAPX1XK,
     'gap-ndp':  NodePrivGAP,

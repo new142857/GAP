@@ -43,7 +43,12 @@ class EdgePrivGAP(GAP):
             self.num_edges = data.num_edges
             self.calibrate()
 
-        return super().fit(data, prefix=prefix)
+        metrics = super().fit(data, prefix=prefix)
+
+        # 把 noise_scale 写进最终 summary
+        metrics["noise_scale"] = float(self.noise_scale)
+
+        return metrics
 
     def _aggregate(self, x: torch.Tensor, adj_t: SparseTensor) -> torch.Tensor:
         x = matmul(adj_t, x)
